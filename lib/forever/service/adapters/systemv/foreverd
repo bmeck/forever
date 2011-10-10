@@ -16,7 +16,7 @@ PATH=$PATH:/usr/local/bin
 NAME=foreverd
 pidfile=/var/run/$NAME.pid
 logfile=/var/log/$NAME.log
-forever_dir=/var/local/foreverd        # Forever root directory.
+forever_dir=/var/local/forever        # Forever root directory.
 
 node=node
 foreverd=`which foreverd`
@@ -56,7 +56,8 @@ stop() {
 }
 
 getForeverId() {
-    echo $(pidofproc -p $pidfile)
+    local pid=$(pidofproc -p $pidfile)
+    $foreverd list -p $forever_dir | $sed -e 's/\x1b\[[0-9; ]*m//g' | $awk "\$4 == \"$pid]\" { gsub(/[\[\]]/, \"\", \$1); print \$1; }"
 }
 id=$(getForeverId)
 
