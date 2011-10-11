@@ -51,6 +51,7 @@
   },
   "main": "./lib/forever",
   "scripts": {
+    "prepublish": "jshint `find -name '*.js' | egrep '^./lib/'`",
     "test": "vows --spec --isolate"
   },
   "engines": {
